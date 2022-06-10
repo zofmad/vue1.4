@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <!-- heading -->
     <header>
-      <h1>Books<span>.app</span></h1>
+      <h1 class="app__heading">Books<span>.app</span></h1>
     </header>
     <books-list :myBooks="books" @remove="removeBook" />
     <!-- zadanie 1 -->
@@ -24,14 +24,7 @@ import BooksSummary from './components/BooksSummary'
 export default {
   name: 'App',
   data: () => ({
-    books: [{
-      title: 'a',
-      price: 10
-    },
-    {
-      title: 'b',
-      price: 15
-    }]
+    books: []
   }),
   methods: {
     addBook (newBook) {
@@ -53,17 +46,33 @@ export default {
       }
       return totalPrice
     }
+  },
+  created () {
+    fetch(
+      'https://openlibrary.org/api/books?bibkeys=ISBN:9789123963140,ISBN:9780030234491,ISBN:9780320037825&format=json&jscmd=data')
+      .then(response => response.json())
+      .then(data => {
+        this.books.push({ title: data['ISBN:9789123963140'].title, price: 20 }, { title: data['ISBN:9780030234491'].title, price: 30 },
+          { title: data['ISBN:9780320037825'].title, price: 40 })
+      })
   }
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss" scoped>
+
+.app {
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+  margin: 0 auto;
+
+  &__heading {
+    font-size: 3rem;
+    text-align: center;
+    span {
+      color: #5a58da;
+    }
+  }
 }
 </style>
