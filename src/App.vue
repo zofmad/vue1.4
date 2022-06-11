@@ -51,13 +51,10 @@ export default {
     fetch(
       'https://openlibrary.org/api/books?bibkeys=ISBN:9789123963140,ISBN:9780030234491,ISBN:9780320037825&format=json&jscmd=data')
       .then(response => response.json())
-      // .then(data => {
-      //   this.books.push({ title: data['ISBN:9789123963140'].title, price: 20 }, { title: data['ISBN:9780030234491'].title, price: 30 },
-      //     { title: data['ISBN:9780320037825'].title, price: 40 })
-      // })
       .then(data => {
-        this.books.push({ title: data[Object.keys(data)[0]].title, price: 20 }, { title: data[Object.keys(data)[1]].title, price: 30 },
-          { title: data[Object.keys(data)[2]].title, price: 40 })
+        for (let i = 0; i < 3; i++) {
+          this.books.push({ title: data[Object.keys(data)[i]].title, price: 20 })
+        }
       })
   }
 }
